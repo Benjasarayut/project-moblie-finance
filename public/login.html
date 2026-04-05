@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#6b35b8">
+<title>ThaiBank - ล็อกอิน</title>
+<link rel="manifest" href="manifest.json">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: linear-gradient(135deg, #6b35b8 0%, #2d1554 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+:root {
+  --p6: #6b35b8;
+  --p5: #8b5cf6;
+  --p2: #ede9fe;
+  --p1: #f5f3ff;
+  --r1: #f87171;
+  --g1: #4ade80;
+  --border: #e5e5e5;
+  --text: #111;
+  --text2: #666;
+}
+
+.login-container {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(107, 53, 184, .25);
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 24px;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--p2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--p6);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: all .15s;
+}
+
+.form-input:focus {
+  border-color: var(--p5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, .1);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  background: var(--p6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  min-height: 48px;
+}
+
+.btn-login:hover {
+  background: #4a2080;
+}
+
+.btn-login:active {
+  opacity: .8;
+}
+
+.btn-login:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: rgba(248, 113, 113, .1);
+  color: var(--r1);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.error-message.show {
+  display: block;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: var(--text2);
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer-text a {
+  color: var(--p6);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media (max-height: 600px) {
+  .login-container { padding: 24px 16px; }
+  .logo-section { margin-bottom: 16px; }
+  .title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <!-- Logo & Title -->
+  <div class="logo-section">
+    <div class="logo-icon">฿</div>
+    <div class="title">ThaiBank</div>
+    <div class="subtitle">เข้าสู่บัญชีการเงินของคุณ</div>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" id="errorMessage"></div>
+
+  <!-- PASSWORD METHOD -->
+  <div class="form-group">
+    <label class="form-label">🔐 รหัสผ่าน</label>
+    <input type="password" class="form-input" id="password" placeholder="กรอกรหัสผ่าน">
+  </div>
+  <button class="btn-login" onclick="loginWithPassword()">ล็อกอิน</button>
+
+  <!-- DIVIDER -->
+  <div style="text-align: center; color: var(--text2); font-size: 12px; margin: 24px 0; position: relative;">
+    <div style="border-top: 1px solid var(--border); margin-bottom: 12px;"></div>
+    หรือ
+  </div>
+
+  <!-- FACE RECOGNITION -->
+  <div class="form-group">
+    <label class="form-label">😊 แสกนหน้า</label>
+    <button class="btn-login" onclick="loginWithFace()">แสกนหน้า</button>
+  </div>
+
+  <!-- FINGERPRINT -->
+  <div class="form-group">
+    <label class="form-label">👆 ลายนิ้วมือ</label>
+    <button class="btn-login" onclick="loginWithFingerprint()">สแกนลายนิ้ว</button>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-text">
+    ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิก</a>
+  </div>
+</div>
+
+<script>
+// ========== PASSWORD LOGIN ==========
+async function loginWithPassword() {
+  const password = document.getElementById('password').value;
+
+  if (!password) {
+    showError('กรุณากรอกรหัสผ่าน');
+    return;
+  }
+
+  console.log('🔍 Attempting login with password...');
+
+  try {
+    // Call API Gateway
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        phone: '081-234-5678', // Use test phone
+        password: password
+      })
+    });
+
+    const result = await response.json();
+    console.log('✓ Login result:', result);
+
+    if (response.ok && result.token) {
+      console.log('✓ Login successful, storing token and redirecting...');
+
+      // Store token in localStorage (more persistent than sessionStorage)
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('user', JSON.stringify(result.user || { id: result.userId, phone: '081-234-5678' }));
+
+      console.log('✓ Token stored, redirecting to index.html');
+
+      // Small delay to ensure localStorage is set
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 100);
+    } else {
+      console.log('❌ Login failed:', result.message);
+      showError(result.message || 'รหัสผ่านไม่ถูกต้อง');
+    }
+  } catch (error) {
+    console.error('❌ Login error:', error);
+    showError('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+  }
+}
+
+// ========== FACE RECOGNITION ==========
+function loginWithFace() {
+  alert('⏳ ฟีเจอร์แสกนหน้านั้นใช้ได้เร็ว ๆ นี้');
+  // WebAuthn/FaceAPI integration will go here
+}
+
+// ========== FINGERPRINT ==========
+function loginWithFingerprint() {
+  if (window.PublicKeyCredential && window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+    window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(available => {
+      if (available) {
+        alert('⏳ ฟีเจอร์สแกนลายนิ้วนั้นใช้ได้เร็ว ๆ นี้');
+      } else {
+        showError('อุปกรณ์นี้ไม่รองรับการสแกนลายนิ้ว');
+      }
+    });
+  } else {
+    showError('เบราว์เซอร์นี้ไม่รองรับการสแกนลายนิ้ว');
+  }
+}
+
+// ========== HELPER FUNCTIONS ==========
+function showError(message) {
+  const errorEl = document.getElementById('errorMessage');
+  errorEl.textContent = message;
+  errorEl.classList.add('show');
+  setTimeout(() => errorEl.classList.remove('show'), 4000);
+}
+
+// ========== SERVICE WORKER & PWA SETUP ==========
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../src/js/service-worker.js', { scope: '/public/' })
+    .then(registration => {
+      console.log('✓ Service Worker registered:', registration.scope);
+    })
+    .catch(error => {
+      console.error('❌ Service Worker registration failed:', error);
+    });
+}
+
+// ========== CHECK IF ALREADY LOGGED IN ==========
+document.addEventListener('DOMContentLoaded', function() {
+  const token = localStorage.getItem('token');
+  if (token) {
+    // User is already logged in, redirect to main app
+    window.location.href = 'index.html';
+  }
+});
+</script>
+}
+
+// ========== INSTALL PROMPT ==========
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  console.log('📦 beforeinstallprompt event fired - app can be installed');
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Show install button in UI (if you add one)
+  const installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.style.display = 'block';
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('✓ App was installed successfully');
+  deferredPrompt = null;
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('✓ User accepted the install prompt');
+      } else {
+        console.log('❌ User dismissed the install prompt');
+      }
+      deferredPrompt = null;
+    });
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if logged in
+  const sessionId = sessionStorage.getItem('thaibank_session_id');
+  if (sessionId) {
+    const isValid = DB.validateSession(sessionId);
+    if (isValid) {
+      window.location.href = 'index.html';
+    }
+  }
+});
+</script>
+
+</body>
+</html>

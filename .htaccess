@@ -1,0 +1,33 @@
+# No caching for dynamic content
+<FilesMatch "\.(html|js|css|json)$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+# Cache images, fonts longer
+<FilesMatch "\.(jpg|jpeg|png|gif|ico|woff|woff2|ttf|svg)$">
+  Header set Cache-Control "public, max-age=31536000"
+</FilesMatch>
+
+# Service Worker - no cache
+<Files "service-worker.js">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</Files>
+
+# Manifest - no cache
+<Files "manifest.json">
+  Header set Cache-Control "no-cache"
+  Header set Content-Type "application/manifest+json"
+</Files>
+
+# Index routing
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.html [L]
+</IfModule>

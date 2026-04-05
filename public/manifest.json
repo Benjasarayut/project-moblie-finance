@@ -1,0 +1,34 @@
+{
+  "name": "ThaiBank Mobile Finance",
+  "short_name": "ThaiBank",
+  "description": "แอปจัดการการเงินส่วนบุคคลพร้อม AI ที่ช่วยคำนวณภาษีและการลงทุน",
+  "scope": "/public/",
+  "start_url": "/public/login.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6b35b8",
+  "background_color": "#ffffff",
+  "categories": ["finance", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%236b35b8' width='192' height='192'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='80' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%236b35b8' width='512' height='512'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='200' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f3f0ff' width='540' height='720'/><rect fill='%231a0a2e' width='540' height='180' rx='20'/><circle fill='%23c4b5fd' cx='100' cy='100' r='30'/><text x='270' y='120' text-anchor='middle' font-size='24' fill='white' font-weight='bold'>ThaiBank</text><rect fill='white' y='160' width='540' height='560' rx='20'/><rect fill='%23ede9fe' x='20' y='200' width='500' height='80' rx='12'/><text x='40' y='245' font-size='14' fill='%23666'>ยอดเงิน</text><text x='40' y='265' font-size='24' fill='%23111' font-weight='bold'>฿ 248,350</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ]
+}

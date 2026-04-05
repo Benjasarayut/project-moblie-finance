@@ -1,0 +1,29 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# Cache control headers
+<IfModule mod_headers.c>
+  # Cache manifest files
+  <FilesMatch "\.(manifest)$">
+    Header set Cache-Control "max-age=0, public"
+  </FilesMatch>
+  
+  # Cache static assets
+  <FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg)$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+  
+  # Don't cache HTML
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "max-age=0, public"
+  </FilesMatch>
+</IfModule>
+
+# Enable gzip compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>

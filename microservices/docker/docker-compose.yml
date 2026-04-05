@@ -1,0 +1,93 @@
+# ThaiBank Microservices Docker Compose
+
+services:
+  # API Gateway
+  api-gateway:
+    build: ../api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - USER_SERVICE_URL=http://user-service:3002
+      - ACCOUNT_SERVICE_URL=http://account-service:3003
+      - TRANSACTION_SERVICE_URL=http://transaction-service:3004
+      - TAX_SERVICE_URL=http://tax-service:3005
+      - INVESTMENT_SERVICE_URL=http://investment-service:3006
+    depends_on:
+      - auth-service
+      - user-service
+      - account-service
+      - transaction-service
+    networks:
+      - thaibank-network
+
+  # Authentication Service
+  auth-service:
+    build: ../auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      - JWT_SECRET=thaibank-secret-key
+    networks:
+      - thaibank-network
+
+  # User Management Service
+  user-service:
+    build: ../user-service
+    ports:
+      - "3002:3002"
+    networks:
+      - thaibank-network
+
+  # Account Management Service
+  account-service:
+    build: ../account-service
+    ports:
+      - "3003:3003"
+    networks:
+      - thaibank-network
+
+  # Transaction Service
+  transaction-service:
+    build: ../transaction-service
+    ports:
+      - "3004:3004"
+    networks:
+      - thaibank-network
+
+  # Tax Calculation Service (placeholder)
+  tax-service:
+    build: ../tax-service
+    ports:
+      - "3005:3005"
+    networks:
+      - thaibank-network
+
+  # Investment Analysis Service (placeholder)
+  investment-service:
+    build: ../investment-service
+    ports:
+      - "3006:3006"
+    networks:
+      - thaibank-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ../../
+      dockerfile: microservices/frontend/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - API_GATEWAY_URL=http://api-gateway:3000
+    depends_on:
+      - api-gateway
+    networks:
+      - thaibank-network
+
+networks:
+  thaibank-network:
+    driver: bridge
+
+volumes:
+  thaibank-data:

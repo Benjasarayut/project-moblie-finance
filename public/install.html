@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#6b35b8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ThaiBank">
+<title>ThaiBank — ติดตั้งแอป</title>
+<link rel="manifest" href="manifest.json">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #6b35b8;
+  --light: #f5f3ff;
+  --text: #111;
+  --text2: #666;
+  --border: #e5e5e5;
+  --success: #4ade80;
+  --warning: #f59e0b;
+}
+
+body {
+  background: linear-gradient(135deg, #6b35b8 0%, #2d1554 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+  padding-top: 10px;
+}
+
+.app-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.method-title::before { content: "🤖"; font-size: 20px; }
+.apple-title::before { content: "🍎"; font-size: 20px; }
+.desktop-title::before { content: "💻"; font-size: 20px; }
+.settings-title::before { content: "🔑"; font-size: 20px; }
+
+.steps-list {
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps-list li {
+  counter-increment: step;
+  padding: 12px 16px;
+  background: var(--light);
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.steps-list li::before {
+  content: counter(step);
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 600;
+  font-size: 12px;
+  margin-right: 10px;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.feature-box {
+  padding: 12px;
+  background: var(--light);
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.feature-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.feature-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.code {
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #c41e3a;
+  font-weight: 600;
+}
+
+.credentials-box {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-left: 4px solid #f59e0b;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.credentials-box h4 {
+  font-size: 13px;
+  color: #92400e;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.password-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 12px;
+  color: #78350f;
+}
+
+.password-item strong {
+  flex: 0 0 60px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  color: white;
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(107, 53, 184, 0.3);
+}
+
+.btn-secondary {
+  background: var(--light);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-secondary:active {
+  background: #f5f3ff;
+  transform: scale(0.96);
+}
+
+.status {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.status-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.status-text strong {
+  color: var(--success);
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 24px; }
+  .card { padding: 16px; }
+  .features { grid-template-columns: 1fr; }
+  .btn-group { flex-direction: column; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="app-icon">🏦</div>
+    <h1>ThaiBank</h1>
+    <p>แอปบัญชีเงินฝากออนไลน์ของคุณ</p>
+  </div>
+
+  <!-- Status -->
+  <div class="status">
+    <div class="status-dot"></div>
+    <div class="status-text"><strong>✓ พร้อมใช้งาน</strong> - แอปพร้อมสำหรับการติดตั้ง</div>
+  </div>
+
+  <!-- Android Installation -->
+  <div class="card">
+    <h3 class="card-title method-title">วิธีติดตั้งบน Android</h3>
+    <p style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">ใช้ Chrome, Edge, หรือ Firefox</p>
+    <ol class="steps-list">
+      <li><strong>เปิด URL ของแอป</strong> บน <span class="code">Chrome</span> หรือ <span class="code">Edge</span></li>
+      <li><strong>รอให้เห็นป็อปอัพ "ติดตั้ง"</strong> ที่มุมล่าง (หรือกดเมนู ⋮ → Install)</li>
+      <li><strong>แตะปุ่ม "ติดตั้ง"</strong> เพื่อยืนยัน</li>
+      <li><strong>เสร็จแล้ว!</strong> แอปจะปรากฏบนหน้าจอหลัก</li>
+    </ol>
+    <div class="features">
+      <div class="feature-box">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">ไม่ต้องโหลด APK</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">📱</div>
+        <div class="feature-text">เหมือนแอปจริง</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-text">ปรับปรุงอัตโนมัติ</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">⚙️</div>
+        <div class="feature-text">ไม่มีค่าใช้พื้นที่</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="openApp()">เปิดแอป</button>
+      <button class="btn btn-secondary" onclick="copyURL()">คัดลอก URL</button>
+    </div>
+  </div>
+
+  <!-- iOS Installation -->
+  <div class="card">
+    <h3 class="card-title apple-title">วิธีติดตั้งบน iOS (iPhone/iPad)</h3>
+    <p style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">ใช้ Safari เท่านั้น</p>
+    <ol class="steps-list">
+      <li><strong>เปิด Safari</strong> บน iPhone หรือ iPad</li>
+      <li><strong>ไปยัง URL ของแอป</strong> พิมพ์ที่แถบที่อยู่</li>
+      <li><strong>แตะปุ่มแชร์</strong> 🔄 ที่ด้านล่าง (หรือทั้งสองชั้น)</li>
+      <li><strong>เลือก "Add to Home Screen"</strong></li>
+      <li><strong>ตั้งชื่อ "ThaiBank"</strong> แล้วแตะ Add</li>
+    </ol>
+    <div class="features">
+      <div class="feature-box">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">Face ID / Touch ID</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">📲</div>
+        <div class="feature-text">เข้าถึงจากหน้าจอ</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-text">iOS 13+ ขึ้นไป</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-text">เร็วมาก</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="openApp()">เปิดแอป</button>
+    </div>
+  </div>
+
+  <!-- Desktop Installation -->
+  <div class="card">
+    <h3 class="card-title desktop-title">วิธีติดตั้งบน PC/Mac</h3>
+    <p style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">ใช้ Chrome, Edge, หรือ Brave</p>
+    <ol class="steps-list">
+      <li><strong>เปิด URL ของแอป</strong> ใน <span class="code">Chrome</span> หรือ <span class="code">Edge</span></li>
+      <li><strong>ไอคอนติดตั้งจะแสดง</strong> ที่ขึ้นแถบที่อยู่</li>
+      <li><strong>แตะไอคอน</strong> หรือใช้เมนู ⋮ → "Install ThaiBank"</li>
+      <li><strong>เปิดในหน้าต่างแยก</strong> พร้อม UI เต็ม</li>
+    </ol>
+    <div class="features">
+      <div class="feature-box">
+        <div class="feature-icon">🪟</div>
+        <div class="feature-text">หน้าต่างแยก</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">⌨️</div>
+        <div class="feature-text">ลัดจำนวนมาก</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-text">เต็มเมนูหลัก</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-text">อิสระจากเบราว์เซอร์</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="openApp()">เปิดแอป</button>
+    </div>
+  </div>
+
+  <!-- Credentials Card -->
+  <div class="card">
+    <h3 class="card-title settings-title">ข้อมูลเข้าสู่ระบบ</h3>
+    <div class="credentials-box">
+      <h4>รหัสผ่านสำหรับทดสอบ (เลือกอันใดอันหนึ่ง):</h4>
+      <div class="password-item">
+        <strong>อันแรก:</strong>
+        <span class="code">password123</span>
+      </div>
+      <div class="password-item">
+        <strong>ที่สอง:</strong>
+        <span class="code">123456</span>
+      </div>
+      <div class="password-item">
+        <strong>ที่สาม:</strong>
+        <span class="code">1234</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Status -->
+  <div class="card">
+    <h3 class="card-title">✨ สถานะระบบ</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div style="padding: 12px; background: var(--light); border-radius: 8px; text-align: center;">
+        <div style="font-size: 20px; margin-bottom: 4px;">✓</div>
+        <div style="font-size: 12px; color: var(--text2);">Service Worker</div>
+      </div>
+      <div style="padding: 12px; background: var(--light); border-radius: 8px; text-align: center;">
+        <div style="font-size: 20px; margin-bottom: 4px;">✓</div>
+        <div style="font-size: 12px; color: var(--text2);">PWA Manifest</div>
+      </div>
+      <div style="padding: 12px; background: var(--light); border-radius: 8px; text-align: center;">
+        <div style="font-size: 20px; margin-bottom: 4px;">✓</div>
+        <div style="font-size: 12px; color: var(--text2);">Offline Support</div>
+      </div>
+      <div style="padding: 12px; background: var(--light); border-radius: 8px; text-align: center;">
+        <div style="font-size: 20px; margin-bottom: 4px;">✓</div>
+        <div style="font-size: 12px; color: var(--text2);">Caching Active</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Button -->
+  <div style="margin-top: 20px;">
+    <button class="btn btn-primary" style="width: 100%; padding: 16px;" onclick="openApp()">
+      🚀 เปิดแอป ThaiBank ตอนนี้
+    </button>
+  </div>
+
+</div>
+
+<script>
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../src/js/service-worker.js?v=20260405', { scope: '/public/' })
+    .then(reg => console.log('✓ SW registered'))
+    .catch(e => console.error('SW error:', e));
+}
+
+function openApp() {
+  window.location.href = 'login.html';
+}
+
+function copyURL() {
+  const url = window.location.origin + '/public/login.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('✓ คัดลอก URL สำเร็จ:\n' + url);
+    });
+  } else {
+    alert('URL ของแอป:\n' + url);
+  }
+}
+
+// Install Prompt
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  deferredPrompt = e;
+  console.log('📦 Install prompt ready');
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('✓ App installed');
+  deferredPrompt = null;
+});
+</script>
+
+</body>
+</html>

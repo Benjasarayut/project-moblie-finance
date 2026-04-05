@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#6b35b8">
+<meta name="description" content="แอปจัดการการเงินส่วนบุคคลพร้อม AI ที่ช่วยคำนวณภาษีและการลงทุน">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ThaiBank">
+<title>ThaiBank — Mobile Banking</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%236b35b8' width='192' height='192'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='80' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%236b35b8' width='180' height='180' rx='40'/><text x='90' y='90' dominant-baseline='middle' text-anchor='middle' font-size='80' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>">
+<link rel="stylesheet" href="../src/css/style.css?v=20260405">
+<script src="../src/js/db.js?v=20260405"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = sessionStorage.getItem('thaibank_logged_in');
+    
+    // If not logged in, redirect to login
+    if (!isLoggedIn) {
+      window.location.href = 'login.html';
+    }
+  });
+</script>
+</head>
+<body>
+<div class="wrap">
+<div class="phone">
+
+  <div class="hdr">
+    <div class="hdr-top">
+      <div class="logo-text">THAIBANK</div>
+      <div class="hdr-right">
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+        <button class="icon-btn" title="ออกจากระบบ" onclick="logout()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+        <div class="avatar">สช</div>
+      </div>
+    </div>
+    <div class="greeting">สวัสดีตอนเช้า 👋</div>
+    <div class="username">สมชาย วงศ์ดี</div>
+  </div>
+
+  <div class="bal-wrap">
+    <div class="bal-lbl">ยอดเงินทั้งหมด</div>
+    <div class="bal-num">฿ 248,350</div>
+    <div class="bal-row">
+      <div class="bc"><div class="bc-l">รายได้เดือนนี้</div><div class="bc-v pos">+฿55,000</div></div>
+      <div class="bc"><div class="bc-l">รายจ่ายเดือนนี้</div><div class="bc-v neg">-฿28,450</div></div>
+      <div class="bc"><div class="bc-l">พอร์ตลงทุน</div><div class="bc-v gld">฿85,000</div></div>
+      <div class="bc"><div class="bc-l">ออมสุทธิ/เดือน</div><div class="bc-v pos">+฿26,550</div></div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="tab-bar">
+      <button class="tab on" onclick="go('transfer',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M18 5l7 7-7 7"/></svg><span>หน้าหลัก</span></button>
+      <button class="tab" onclick="go('savings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 6v12M8 9h8" stroke-linecap="round"/></svg><span>ออมเงิน</span></button>
+      <button class="tab" onclick="go('accounts',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>บัญชี</span></button>
+      <button class="tab" onclick="go('analytics',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18a2 2 0 0 0 2 2h16"/><path d="M18 17V9M13 17v-4M8 17v-7"/></svg><span>สถิติ</span></button>
+      <button class="tab" onclick="go('settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.46 7.78l4.24-4.24m3.08-3.08l4.24-4.24"/></svg><span>ตั้งค่า</span></button>
+    </div>
+
+    <div class="pages">
+
+      <!-- HOME: Dashboard يشبه mymo -->
+      <div id="p-transfer" class="page on">
+        <!-- Savings Goals -->
+        <div class="goal-section">
+          <div class="goal-header">
+            <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">เป้าหมายการออม</div><div style="font-size:11px;color:var(--text2);margin-top:2px">เดือนนี้</div></div>
+            <button class="edit-link" onclick="alert('แก้ไขเป้าหมาย')">แก้ไข</button>
+          </div>
+          <div style="margin-top:12px">
+            <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span>฿5,000 / ฿10,000</span><span style="color:var(--g2)">50%</span></div>
+            <div style="width:100%;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden"><div style="width:50%;height:100%;background:linear-gradient(90deg,var(--p6),var(--p5));border-radius:3px"></div></div>
+          </div>
+        </div>
+
+        <!-- Budget Overview -->
+        <div class="budget-section">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px">งบประมาณเดือนนี้</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="budget-card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:8px;height:8px;background:var(--p5);border-radius:50%"></div>
+                <div style="font-size:11px;color:var(--text2)">ใช้ไป</div>
+              </div>
+              <div style="font-size:16px;font-weight:600;color:var(--text)">฿28,450</div>
+              <div style="font-size:10px;color:var(--text2);margin-top:2px">53% ของงบ</div>
+            </div>
+            <div class="budget-card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:8px;height:8px;background:var(--g1);border-radius:50%"></div>
+                <div style="font-size:11px;color:var(--text2)">เหลือ</div>
+              </div>
+              <div style="font-size:16px;font-weight:600;color:var(--g2)">฿24,550</div>
+              <div style="font-size:10px;color:var(--text2);margin-top:2px">47% ของงบ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart Tips -->
+        <div class="tips-section">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px">💡 คำแนะนำ</div>
+          <div class="tip-card">
+            <div style="color:var(--p6);font-weight:600;font-size:12px;margin-bottom:4px">อาหารบริหาร</div>
+            <div style="font-size:11px;color:var(--text);line-height:1.4">คุณใช้เงินอาหารมากกว่าเดือนที่แล้ว 15% ลองตั้งเป้าหมาย!</div>
+          </div>
+        </div>
+
+        <div class="sec-lbl">โอนเงินอย่างรวดเร็ว</div>
+        <div class="quick-grid">
+          <button class="qb" onclick="alert('โอนเงิน')"><div class="qb-icon" style="background:var(--p2)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--p6)" stroke-width="1.8"><path d="M12 5v14M5 12l7-7 7 7"/></svg></div><span>โอน</span></button>
+          <button class="qb" onclick="alert('ใบเสร็จ')"><div class="qb-icon" style="background:#f0fdf4"><svg viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><span>ใบเสร็จ</span></button>
+          <button class="qb" onclick="alert('ขอสินเชื่อ')"><div class="qb-icon" style="background:#fef9c3"><svg viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><span>สินเชื่อ</span></button>
+          <button class="qb" onclick="alert('อื่นๆ')"><div class="qb-icon" style="background:#ffe4e6"><svg viewBox="0 0 24 24" fill="none" stroke="#9f1239" stroke-width="1.8"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div><span>เพิ่มเติม</span></button>
+        </div>
+
+        <div class="sec-lbl">รายการโปรด</div>
+        <div class="fav-list">
+          <div class="fav-item">
+            <div class="fav-ic" style="background:#f0fdf4"><svg viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div style="flex:1"><div class="fav-name">สมชายศรีวร</div><div class="fav-acc">นง 123456789</div></div>
+            <button class="send-btn" onclick="alert('โอนให้สมชาย')">โอน</button>
+          </div>
+          <div class="fav-item">
+            <div class="fav-ic" style="background:var(--p2)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--p6)" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div style="flex:1"><div class="fav-name">สุนีย์สมใจ</div><div class="fav-acc">นง 987654321</div></div>
+            <button class="send-btn" onclick="alert('โอนให้สุนีย์')">โอน</button>
+          </div>
+        </div>
+
+        <div class="sec-lbl">เมนูอื่นๆ</div>
+        <div class="menu-grid">
+          <button class="menu-btn" onclick="alert('QR Payment')"><div class="menu-ic" style="background:#f0fdf4">📱</div><div class="menu-name">QR Payment</div></button>
+          <button class="menu-btn" onclick="alert('บิล')"><div class="menu-ic" style="background:#fef9c3">📄</div><div class="menu-name">บิล</div></button>
+          <button class="menu-btn" onclick="alert('แลกเงิน')"><div class="menu-ic" style="background:#ffe4e6">💱</div><div class="menu-name">แลกเงิน</div></button>
+        </div>
+      </div>
+
+      <!-- SAVINGS: ออมเงิน -->
+      <div id="p-savings" class="page">
+        <div class="sec-lbl">เป้าหมายการออมของคุณ</div>
+        <div class="card">
+          <div class="goal-item">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-weight:600;font-size:14px">🏝️ วันหยุดในต่างประเทศ</div>
+              <button style="background:none;border:none;color:var(--p6);cursor:pointer;font-size:11px" onclick="alert('แก้ไข')">[แก้ไข]</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;font-size:12px">
+              <div><span style="color:var(--text2)">เป้าหมาย:</span> ฿150,000</div>
+              <div><span style="color:var(--text2)">สะสม:</span> ฿75,000</div>
+            </div>
+            <div style="width:100%;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden">
+              <div style="width:50%;height:100%;background:linear-gradient(90deg,var(--p6),var(--p5))" />
+            </div>
+            <div style="font-size:10px;color:var(--text2);margin-top:4px">50% เสร็จสิ้น - เหลือ ฿75,000</div>
+          </div>
+
+          <div class="goal-item" style="padding:12px 0;margin-top:12px;border-top:0.5px solid var(--bg2)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-weight:600;font-size:14px">🚗 รถยนต์ใหม่</div>
+              <button style="background:none;border:none;color:var(--p6);cursor:pointer;font-size:11px" onclick="alert('แก้ไข')">[แก้ไข]</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;font-size:12px">
+              <div><span style="color:var(--text2)">เป้าหมาย:</span> ฿800,000</div>
+              <div><span style="color:var(--text2)">สะสม:</span> ฿320,000</div>
+            </div>
+            <div style="width:100%;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden">
+              <div style="width:40%;height:100%;background:linear-gradient(90deg,#f59e0b,#d97706)" />
+            </div>
+            <div style="font-size:10px;color:var(--text2);margin-top:4px">40% เสร็จสิ้น - เหลือ ฿480,000</div>
+          </div>
+
+          <div class="goal-item" style="padding:12px 0;margin-top:12px;border-top:0.5px solid var(--bg2)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-weight:600;font-size:14px">🏠 บ้านหลังใหม่</div>
+              <button style="background:none;border:none;color:var(--p6);cursor:pointer;font-size:11px" onclick="alert('แก้ไข')">[แก้ไข]</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;font-size:12px">
+              <div><span style="color:var(--text2)">เป้าหมาย:</span> ฿2,500,000</div>
+              <div><span style="color:var(--text2)">สะสม:</span> ฿750,000</div>
+            </div>
+            <div style="width:100%;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden">
+              <div style="width:30%;height:100%;background:linear-gradient(90deg,#06b6d4,#0891b2)" />
+            </div>
+            <div style="font-size:10px;color:var(--text2);margin-top:4px">30% เสร็จสิ้น - เหลือ ฿1,750,000</div>
+          </div>
+        </div>
+
+        <div class="sec-lbl" style="margin-top:20px">ระบบออมอัตโนมัติ</div>
+        <div class="card">
+          <div style="padding:12px 0;border-bottom:0.5px solid var(--bg2);display:flex;justify-content:space-between">
+            <div>
+              <div style="font-weight:600;font-size:13px">ทุกวันจันทร์ ฿2,000</div>
+              <div style="font-size:11px;color:var(--text2)">สดยอด ถอนออม</div>
+            </div>
+            <button style="padding:4px 12px;border:1px solid var(--p6);background:none;color:var(--p6);border-radius:6px;font-size:11px;cursor:pointer" onclick="alert('หยุดการออม')">หยุด</button>
+          </div>
+          <div style="padding:12px 0;display:flex;justify-content:space-between">
+            <div>
+              <div style="font-weight:600;font-size:13px">ทุกวันศุกร์ ฿5,000</div>
+              <div style="font-size:11px;color:var(--text2)">ออมเป้าหมายรถ</div>
+            </div>
+            <button style="padding:4px 12px;border:1px solid var(--p6);background:none;color:var(--p6);border-radius:6px;font-size:11px;cursor:pointer" onclick="alert('หยุดการออม')">หยุด</button>
+          </div>
+        </div>
+
+        <button class="btn-pri" style="width:100%;margin-top:20px;margin-bottom:20px" onclick="alert('สร้างเป้าหมายใหม่')">+ เพิ่มเป้าหมายใหม่</button>
+      </div>
+
+      <!-- ACCOUNTS: บัญชี -->
+      <div id="p-accounts" class="page">
+        <div class="card">
+          <div style="font-size:12px;font-weight:500;margin-bottom:12px;color:var(--text2)">บัญชีธนาคารของคุณ</div>
+          <div class="account-item">
+            <div class="acc-bank">🏦 ธนาคารไทยพาณิชย์</div>
+            <div class="acc-type">บัญชีเงินฝากประจำ</div>
+            <div class="acc-num">•••• •••• •••• 1234</div>
+            <div class="acc-bal" style="color:#166534">฿185,350</div>
+          </div>
+          <div class="account-item" style="opacity:.6">
+            <div class="acc-bank">🏦 ธนาคารกรุงเทพ</div>
+            <div class="acc-type">บัญชีเงินฝากออมทรัพย์</div>
+            <div class="acc-num">•••• •••• •••• 5678</div>
+            <div class="acc-bal" style="color:var(--p6)">฿63,000</div>
+          </div>
+          <button class="btn-sec" style="margin-top:12px">เพิ่มบัญชี</button>
+        </div>
+      </div>
+
+      <!-- ANALYTICS: สถิติและวิเคราะห์ -->
+      <div id="p-analytics" class="page">
+        <div class="sec-lbl">สถิติการใช้จ่าย เมษายน 2569</div>
+        <div class="card" style="padding:20px;text-align:center">
+          <div style="font-size:32px;font-weight:700;color:var(--p6);margin-bottom:4px">฿53,450</div>
+          <div style="font-size:12px;color:var(--text2)">รายจ่ายทั้งเดือน</div>
+          <div style="width:100%;height:4px;background:var(--bg2);border-radius:2px;margin:16px 0">
+            <div style="width:71%;height:100%;background:linear-gradient(90deg,var(--p6),var(--p5));border-radius:2px" />
+          </div>
+          <div style="display:flex;justify-content:space-around;font-size:11px;color:var(--text2)">
+            <span>฿53,450 / ฿75,000 งบ</span>
+          </div>
+        </div>
+
+        <div class="sec-lbl" style="margin-top:20px">รายจ่ายตามหมวดหมู่</div>
+        <div class="card">
+          <div style="padding:12px 0;display:grid;grid-template-columns:1fr 80px;align-items:center;border-bottom:0.5px solid var(--bg2)">
+            <div style="font-size:13px">🏠 ที่อยู่อาศัย</div>
+            <div style="text-align:right"><div style="font-size:13px;font-weight:600">฿15,000</div><div style="font-size:10px;color:var(--text2)">28%</div></div>
+          </div>
+          <div style="padding:12px 0;display:grid;grid-template-columns:1fr 80px;align-items:center;border-bottom:0.5px solid var(--bg2)">
+            <div style="font-size:13px">🍔 อาหาร</div>
+            <div style="text-align:right"><div style="font-size:13px;font-weight:600">฿12,450</div><div style="font-size:10px;color:var(--text2)">23%</div></div>
+          </div>
+          <div style="padding:12px 0;display:grid;grid-template-columns:1fr 80px;align-items:center;border-bottom:0.5px solid var(--bg2)">
+            <div style="font-size:13px">🚗 ขนส่ง</div>
+            <div style="text-align:right"><div style="font-size:13px;font-weight:600">฿8,500</div><div style="font-size:10px;color:var(--text2)">16%</div></div>
+          </div>
+          <div style="padding:12px 0;display:grid;grid-template-columns:1fr 80px;align-items:center">
+            <div style="font-size:13px">🛍️ ช้อปปิ้ง</div>
+            <div style="text-align:right"><div style="font-size:13px;font-weight:600">฿17,500</div><div style="font-size:10px;color:var(--text2)">33%</div></div>
+          </div>
+        </div>
+
+        <div class="sec-lbl" style="margin-top:20px">เปรียบเทียบรายเดือน</div>
+        <div class="card" style="padding:16px;text-align:center">
+          <div style="display:flex;justify-content:space-around;align-items:flex-end;height:100px">
+            <div style="text-align:center">
+              <div style="background:var(--p3);width:30px;height:45px;margin:0 auto 4px;border-radius:4px" />
+              <div style="font-size:10px;color:var(--text2)">มี.ค</div>
+            </div>
+            <div style="text-align:center">
+              <div style="background:var(--p6);width:30px;height:75px;margin:0 auto 4px;border-radius:4px" />
+              <div style="font-size:10px;color:var(--text2)">เม.ย</div>
+            </div>
+            <div style="text-align:center">
+              <div style="background:var(--p3);width:30px;height:50px;margin:0 auto 4px;border-radius:4px" />
+              <div style="font-size:10px;color:var(--text2)">พฤ.ค (คาดการณ์)</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text2);margin-top:12px">⚠️ ใช้จ่ายเพิ่มขึ้น 22% เทียบกับเดือนที่แล้ว</div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="p-settings" class="page">
+        <div class="sec-lbl">ข้อมูลบัญชี</div>
+        <div class="card">
+          <div class="setting-item">
+            <div style="flex:1"><div class="set-label">ชื่อ</div><div class="set-value">สมชาย วงศ์ดี</div></div>
+            <button class="edit-btn" onclick="alert('แก้ไขชื่อ')">แก้ไข</button>
+          </div>
+          <div class="setting-item">
+            <div style="flex:1"><div class="set-label">เบอร์โทรศัพท์</div><div class="set-value">081-234-5678</div></div>
+            <button class="edit-btn" onclick="alert('แก้ไขเบอร์')">แก้ไข</button>
+          </div>
+        </div>
+        <div class="sec-lbl">ความปลอดภัย</div>
+        <div class="card">
+          <div class="setting-item">
+            <div style="flex:1"><div class="set-label">เปลี่ยนรหัสผ่าน</div><div class="set-value" style="font-size:11px;color:var(--text2)">ล่าสุด 30 วันที่แล้ว</div></div>
+            <button class="edit-btn" onclick="alert('เปลี่ยนรหัส')">เปลี่ยน</button>
+          </div>
+        </div>
+        <div class="sec-lbl">อื่นๆ</div>
+        <div class="card">
+          <button class="btn-sec" style="margin-bottom:8px">นโยบายความเป็นส่วนตัว</button>
+          <button class="btn-sec" style="margin-bottom:8px">เงื่อนไขการใช้บริการ</button>
+          <button class="btn-danger" onclick="logout()" style="margin-top:12px">ออกจากระบบ</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+// Authentication functions
+async function logout() {
+  if (confirm('คุณต้องการออกจากระบบหรือไม่?')) {
+    try {
+      const response = await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+      } else {
+        alert('เกิดข้อผิดพลาดในการออกจากระบบ');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback to clearing storage
+      localStorage.clear();
+      window.location.href = 'login.html';
+    }
+  }
+}
+
+// API helper functions
+async function apiRequest(endpoint, options = {}) {
+  const token = localStorage.getItem('token');
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` })
+    }
+  };
+
+  const response = await fetch(`${API_BASE}${endpoint}`, { ...defaultOptions, ...options });
+
+  if (response.status === 401) {
+    // Token expired, redirect to login
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  return response;
+}
+
+// Load user data on page load
+async function loadUserData() {
+  try {
+    const userResponse = await apiRequest('/user/profile');
+    if (userResponse.ok) {
+      const userData = await userResponse.json();
+      // Update user name in settings
+      const nameElement = document.querySelector('.set-value');
+      if (nameElement && userData.name) {
+        nameElement.textContent = userData.name;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading user data:', error);
+  }
+}
+
+// Load account balance
+async function loadAccountBalance() {
+  try {
+    const response = await apiRequest('/account/balance');
+    if (response.ok) {
+      const data = await response.json();
+      // Update balance display
+      const balanceElement = document.querySelector('.bal-num');
+      if (balanceElement) {
+        balanceElement.textContent = `฿ ${data.balance.toLocaleString()}`;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading account balance:', error);
+  }
+}
+
+// Load transaction history
+async function loadTransactionHistory() {
+  try {
+    const response = await apiRequest('/transaction/history?limit=10');
+    if (response.ok) {
+      const transactions = await response.json();
+      // Update transaction display if needed
+      console.log('Transaction history:', transactions);
+    }
+  } catch (error) {
+    console.error('Error loading transaction history:', error);
+  }
+}
+
+// Navigation function
+function go(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  const p = document.getElementById('p-' + name);
+  if (p) p.classList.add('on');
+  if (btn) btn.classList.add('on');
+
+  // Load data for specific pages
+  if (name === 'accounts') {
+    loadAccountBalance();
+  } else if (name === 'analytics') {
+    loadTransactionHistory();
+  }
+}
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Load initial data
+  loadUserData();
+  loadAccountBalance();
+
+  // Set default active tab
+  go('transfer', document.querySelector('.tab'));
+});
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../src/js/service-worker.js?v=20260405')
+    .then(r => console.log('✓ Service Worker registered'))
+    .catch(e => console.log('✗ Service Worker failed:', e));
+}
+</script>
+
+</body>
+</html>

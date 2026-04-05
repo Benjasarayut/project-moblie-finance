@@ -1,0 +1,115 @@
+📁 project-mobile-finance/
+├── 📂 public/                    # 🌐 Web-accessible files (document root)
+│   ├── index.html                # 📱 Main dashboard app
+│   ├── login.html                # 🔐 Authentication page
+│   ├── manifest.json             # ⚙️ PWA configuration
+│   └── .htaccess                 # 🔧 Server routing & caching
+│
+├── 📂 src/                       # 💾 Source code
+│   ├── 📂 css/
+│   │   └── style.css             # 🎨 All application styles
+│   ├── 📂 js/
+│   │   ├── db.js                 # 📊 Database & security logic
+│   │   └── service-worker.js     # 🔌 Offline support & caching
+│   └── 📂 config/
+│       └── .htaccess             # 🔧 Backup server configuration
+│
+├── 📂 docs/                      # 📚 Documentation
+│   ├── README.md                 # 📖 Main documentation
+│   └── TESTING.md                # 🧪 Test user credentials & scenarios
+│
+└── 📄 PROJECT_STRUCTURE.txt      # 🗂️ This file
+
+═══════════════════════════════════════════════════════════════
+
+📝 WHAT EACH FOLDER CONTAINS:
+
+🌐 public/
+  └─ Everything users access from the internet
+  └─ Contains HTML pages, configs, and references to src/
+  └─ Deploy this folder to your web server
+
+💾 src/
+  └─ Application source code
+  ├─ /css: All styling (style.css)
+  ├─ /js: JavaScript logic & database
+  └─ /config: Server configuration files
+
+📚 docs/
+  └─ Project documentation
+  ├─ README.md: Feature overview & installation
+  └─ TESTING.md: Test users & scenarios
+
+═══════════════════════════════════════════════════════════════
+
+🔗 FILE RELATIONSHIPS:
+
+index.html
+  ├─ links to: ../src/css/style.css          ✅
+  ├─ loads: ../src/js/db.js                  ✅
+  └─ registers: ../src/js/service-worker.js  ✅
+
+login.html
+  └─ loads: ../src/js/db.js                  ✅
+
+manifest.json
+  └─ referenced by index.html & login.html   ✅
+
+service-worker.js
+  ├─ caches: /index.html, /login.html
+  ├─ caches: /src/css/style.css
+  ├─ caches: /src/js/db.js
+  └─ caches: /manifest.json
+
+═══════════════════════════════════════════════════════════════
+
+✨ FEATURES:
+
+✅ PWA (Progressive Web App)
+   └─ Install on mobile as native app
+   └─ Works offline via service worker
+
+✅ Multi-method Authentication
+   └─ Password login
+   └─ Face recognition (WebAuthn)
+   └─ Fingerprint/Biometric (WebAuthn)
+
+✅ Multi-factor Security
+   └─ 3-attempt password limit
+   └─ SMS OTP verification
+   └─ Email OTP verification
+
+✅ Dashboard Features
+   └─ Tax calculation (AI-powered)
+   └─ Investment portfolio analysis (AI)
+   └─ Utility bill tracking
+   └─ Donation management
+   └─ Financial status analysis (AI)
+
+═══════════════════════════════════════════════════════════════
+
+🚀 TO RUN LOCALLY:
+
+1. Start a local web server serving public/ as root:
+   npx http-server public/
+   
+   or
+   
+   python3 -m http.server 8000 --directory public/
+   
+   or
+   
+   php -S localhost:8000 -t public/
+
+2. Open http://localhost:8000 in your browser
+
+3. Log in with test credentials (see docs/TESTING.md)
+
+═══════════════════════════════════════════════════════════════
+
+📖 TEST USERS: See docs/TESTING.md
+
+User 1: 081-234-5678 / password123
+User 2: 089-876-5432 / 123456
+
+═══════════════════════════════════════════════════════════════
