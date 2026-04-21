@@ -7,12 +7,18 @@
 <meta http-equiv="expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#6b35b8">
+<meta name="description" content="แอปจัดการการเงินส่วนบุคคลพร้อม AI ที่ช่วยคำนวณภาษีและการลงทุน">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ThaiBank">
 <title>ThaiBank - ล็อกอิน</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%236b35b8' width='192' height='192'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='80' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%236b35b8' width='180' height='180' rx='40'/><text x='90' y='90' dominant-baseline='middle' text-anchor='middle' font-size='80' font-weight='bold' fill='white' font-family='Arial'>฿</text></svg>">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: linear-gradient(135deg, #6b35b8 0%, #2d1554 100%);
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -22,24 +28,25 @@ body {
 }
 
 :root {
-  --p6: #6b35b8;
-  --p5: #8b5cf6;
-  --p2: #ede9fe;
-  --p1: #f5f3ff;
+  --p6: #10b981;
+  --p5: #34d399;
+  --p2: #1f4435;
+  --p1: #ecfdf5;
   --r1: #f87171;
   --g1: #4ade80;
-  --border: #e5e5e5;
-  --text: #111;
-  --text2: #666;
+  --border: #404040;
+  --text: #ffffff;
+  --text2: #b0b0b0;
 }
 
 .login-container {
-  background: white;
+  background: #1a1a1a;
   border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(107, 53, 184, .25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
   width: 100%;
   max-width: 420px;
   padding: 32px 24px;
+  border: 0.5px solid var(--border);
 }
 
 .logo-section {
@@ -50,7 +57,7 @@ body {
 .logo-icon {
   width: 60px;
   height: 60px;
-  background: var(--p2);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.2) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -58,7 +65,8 @@ body {
   margin: 0 auto 16px;
   font-size: 32px;
   font-weight: bold;
-  color: var(--p6);
+  color: var(--p5);
+  border: 0.5px solid var(--border);
 }
 
 .title {
@@ -93,20 +101,21 @@ body {
   border-radius: 10px;
   font-size: 14px;
   color: var(--text);
+  background: #272727;
   outline: none;
   transition: all .15s;
 }
 
 .form-input:focus {
   border-color: var(--p5);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, .1);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, .15);
 }
 
 .btn-login {
   width: 100%;
   padding: 13px;
   background: var(--p6);
-  color: white;
+  color: #000;
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -117,7 +126,7 @@ body {
 }
 
 .btn-login:hover {
-  background: #4a2080;
+  background: var(--p5);
 }
 
 .btn-login:active {
@@ -125,8 +134,9 @@ body {
 }
 
 .btn-login:disabled {
-  background: #ccc;
+  background: #404040;
   cursor: not-allowed;
+  color: #666;
 }
 
 .error-message {
@@ -137,6 +147,7 @@ body {
   font-size: 12px;
   margin-bottom: 16px;
   display: none;
+  border: 0.5px solid rgba(248, 113, 113, .3);
 }
 
 .error-message.show {
@@ -151,7 +162,7 @@ body {
 }
 
 .footer-text a {
-  color: var(--p6);
+  color: var(--p5);
   text-decoration: none;
   font-weight: 500;
 }
@@ -219,42 +230,30 @@ async function loginWithPassword() {
 
   console.log('🔍 Attempting login with password...');
 
-  try {
-    // Call API Gateway
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phone: '081-234-5678', // Use test phone
-        password: password
-      })
-    });
+  // Simple password check for demo
+  const validPasswords = ['password123', '123456', '1234'];
+  
+  if (validPasswords.includes(password)) {
+    console.log('✓ Login successful, redirecting...');
 
-    const result = await response.json();
-    console.log('✓ Login result:', result);
+    // Store mock user data
+    localStorage.setItem('token', 'demo-token-' + Date.now());
+    localStorage.setItem('user', JSON.stringify({
+      id: 'USR001',
+      phone: '081-234-5678',
+      name: 'สมชาย',
+      email: 'somchai@example.com'
+    }));
 
-    if (response.ok && result.token) {
-      console.log('✓ Login successful, storing token and redirecting...');
+    console.log('✓ Token stored, redirecting to index.html');
 
-      // Store token in localStorage (more persistent than sessionStorage)
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('user', JSON.stringify(result.user || { id: result.userId, phone: '081-234-5678' }));
-
-      console.log('✓ Token stored, redirecting to index.html');
-
-      // Small delay to ensure localStorage is set
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 100);
-    } else {
-      console.log('❌ Login failed:', result.message);
-      showError(result.message || 'รหัสผ่านไม่ถูกต้อง');
-    }
-  } catch (error) {
-    console.error('❌ Login error:', error);
-    showError('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+    // Small delay to ensure localStorage is set
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 100);
+  } else {
+    console.log('❌ Login failed: invalid password');
+    showError('รหัสผ่านไม่ถูกต้อง');
   }
 }
 
@@ -307,54 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
-}
-
-// ========== INSTALL PROMPT ==========
-let deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('📦 beforeinstallprompt event fired - app can be installed');
-  e.preventDefault();
-  deferredPrompt = e;
-  
-  // Show install button in UI (if you add one)
-  const installBtn = document.getElementById('installBtn');
-  if (installBtn) {
-    installBtn.style.display = 'block';
-  }
-});
-
-window.addEventListener('appinstalled', () => {
-  console.log('✓ App was installed successfully');
-  deferredPrompt = null;
-});
-
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('✓ User accepted the install prompt');
-      } else {
-        console.log('❌ User dismissed the install prompt');
-      }
-      deferredPrompt = null;
-    });
-  }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  // Check if logged in
-  const sessionId = sessionStorage.getItem('thaibank_session_id');
-  if (sessionId) {
-    const isValid = DB.validateSession(sessionId);
-    if (isValid) {
-      window.location.href = 'index.html';
-    }
-  }
-});
-</script>
 
 </body>
 </html>
+

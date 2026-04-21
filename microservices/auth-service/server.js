@@ -26,7 +26,7 @@ const users = new Map([
   ['USR001', {
     id: 'USR001',
     phone: '081-234-5678',
-    password: '$2a$10$example.hash.here', // bcrypt hash of 'password123'
+    password: '$2a$10$B.re7D/fz0xEiE.yBVIKCOjRQ51nbpbfjKsOT0nZmICATf50Oo8Tm', // bcrypt hash of 'password123'
     name: 'สมชาย',
     email: 'somchai@example.com',
     role: 'user'
@@ -34,7 +34,7 @@ const users = new Map([
   ['USR002', {
     id: 'USR002',
     phone: '082-345-6789',
-    password: '$2a$10$example.hash.here', // bcrypt hash of 'password123'
+    password: '$2a$10$B.re7D/fz0xEiE.yBVIKCOjRQ51nbpbfjKsOT0nZmICATf50Oo8Tm', // bcrypt hash of 'password123'
     name: 'สุนีย์',
     email: 'sunny@example.com',
     role: 'user'

@@ -1,9 +1,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#f3f0ff;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+body{background:#0a0a0a;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 :root{
-  --p9:#1a0a2e;--p8:#2d1554;--p7:#4a2080;--p6:#6b35b8;--p5:#8b5cf6;--p4:#a78bfa;--p3:#c4b5fd;--p2:#ede9fe;--p1:#f5f3ff;
+  --dark:#0f0f0f;--surface:#1a1a1a;--surface-light:#272727;
   --g1:#4ade80;--g2:#166534;--r1:#f87171;--r2:#991b1b;--a1:#fbbf24;--a2:#92400e;
-  --bg:#ffffff;--bg2:#f8f8f8;--border:#e5e5e5;--text:#111;--text2:#666;
+  --accent:#10b981;--accent-light:#34d399;
+  --bg:#1a1a1a;--bg2:#272727;--border:#404040;--text:#ffffff;--text2:#b0b0b0;
+  --p6:#10b981;--p5:#34d399;--p4:#6ee7b7;--p3:#a7f3d0;--p2:#d1fae5;--p1:#ecfdf5;
+  --p9:#0f0f0f;--p8:#1a1a1a;--p7:#10b981;
 }
 .wrap{max-width:400px;width:100%}
 .phone{background:var(--p9);border-radius:20px;overflow:hidden;min-height:700px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(107,53,184,.25)}
@@ -305,7 +308,7 @@ body {
 /* ===== MYMO-STYLE HOME PAGE ===== */
 
 .goal-section {
-  background: var(--bg);
+  background: var(--surface);
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
@@ -319,7 +322,7 @@ body {
 .edit-link {
   background: none;
   border: none;
-  color: var(--p6);
+  color: var(--accent);
   font-size: 11px;
   font-weight: 500;
   cursor: pointer;
@@ -331,7 +334,7 @@ body {
   margin-bottom: 16px;
 }
 .budget-card {
-  background: var(--bg2);
+  background: var(--surface);
   border-radius: 10px;
   padding: 12px;
   border: 0.5px solid var(--border);
@@ -341,11 +344,11 @@ body {
   margin-bottom: 16px;
 }
 .tip-card {
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-  border-left: 3px solid var(--p5);
+  background: linear-gradient(135deg, #1f4435 0%, #1a3a2f 100%);
+  border-left: 3px solid var(--accent);
   border-radius: 8px;
   padding: 12px;
-  border: 0.5px solid var(--p3);
+  border: 0.5px solid var(--border);
 }
 
 
@@ -359,11 +362,11 @@ body {
 
 /* ===== ACCOUNTS PAGE ===== */
 .account-item {
-  background: var(--p1);
+  background: var(--surface);
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 10px;
-  border: 0.5px solid var(--p3);
+  border: 0.5px solid var(--border);
 }
 .acc-bank {
   font-size: 14px;
@@ -429,7 +432,7 @@ body {
   gap: 8px;
 }
 .fav-item {
-  background: var(--bg);
+  background: var(--surface);
   border-radius: 12px;
   padding: 12px;
   border: 0.5px solid var(--border);
@@ -447,6 +450,7 @@ body {
   flex-shrink: 0;
   color: white;
   font-size: 20px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
 }
 .fav-ic svg {
   width: 24px;
@@ -463,8 +467,8 @@ body {
   margin-top: 2px;
 }
 .send-btn {
-  background: var(--p6);
-  color: white;
+  background: var(--accent);
+  color: #000;
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
@@ -475,7 +479,7 @@ body {
   flex-shrink: 0;
 }
 .send-btn:hover {
-  background: var(--p5);
+  background: var(--accent-light);
 }
 
 /* ===== QUICK GRID ===== */
@@ -486,7 +490,7 @@ body {
   margin-bottom: 4px;
 }
 .trans-card {
-  background: var(--bg);
+  background: var(--surface);
   border: 0.5px solid var(--border);
   border-radius: 12px;
   padding: 12px;
@@ -499,7 +503,8 @@ body {
 }
 .trans-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: var(--surface-light);
 }
 .trans-ic {
   width: 48px;
@@ -508,10 +513,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.2) 100%);
 }
 .trans-ic svg {
   width: 24px;
   height: 24px;
+  color: var(--accent);
 }
 .trans-name {
   font-size: 11px;
@@ -534,7 +541,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  background: var(--bg);
+  background: var(--surface);
   border: 0.5px solid var(--border);
   border-radius: 12px;
   padding: 12px;
@@ -542,7 +549,8 @@ body {
   transition: all 0.12s;
 }
 .menu-btn:hover {
-  transform: scale(0.95);
+  background: var(--surface-light);
+  transform: scale(0.98);
 }
 .menu-ic {
   font-size: 28px;
@@ -567,7 +575,7 @@ body {
   gap: 2px;
 }
 .tx {
-  background: var(--bg);
+  background: var(--surface);
   border-radius: 10px;
   padding: 12px;
   border: 0.5px solid var(--border);
@@ -583,10 +591,12 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.15) 100%);
 }
 .tx-ic svg {
   width: 20px;
   height: 20px;
+  color: var(--accent);
 }
 .tx-name {
   font-size: 12px;
@@ -608,15 +618,15 @@ body {
 
 /* ===== CARDS & BUTTONS ===== */
 .card {
-  background: var(--bg);
+  background: var(--surface);
   border-radius: 12px;
   padding: 14px;
   border: 0.5px solid var(--border);
   margin-bottom: 10px;
 }
 .btn-pri {
-  background: var(--p6);
-  color: white;
+  background: var(--accent);
+  color: #000;
   border: none;
   padding: 12px 16px;
   border-radius: 10px;
@@ -627,10 +637,10 @@ body {
   min-height: 48px;
 }
 .btn-pri:hover {
-  background: var(--p5);
+  background: var(--accent-light);
 }
 .btn-sec {
-  background: var(--bg2);
+  background: var(--surface);
   color: var(--text);
   border: 0.5px solid var(--border);
   padding: 10px 16px;
@@ -642,12 +652,12 @@ body {
   transition: background 0.12s;
 }
 .btn-sec:hover {
-  background: var(--p2);
+  background: var(--surface-light);
 }
 .btn-danger {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 0.5px solid #fecaca;
+  background: rgba(244, 63, 94, 0.15);
+  color: #f87171;
+  border: 0.5px solid rgba(244, 63, 94, 0.3);
   padding: 10px 16px;
   border-radius: 8px;
   font-size: 11px;
@@ -657,6 +667,6 @@ body {
   transition: all 0.12s;
 }
 .btn-danger:hover {
-  background: #fecaca;
+  background: rgba(244, 63, 94, 0.25);
 }
 

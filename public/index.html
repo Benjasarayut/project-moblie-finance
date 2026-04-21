@@ -19,10 +19,10 @@
 <script src="../src/js/db.js?v=20260405"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const isLoggedIn = sessionStorage.getItem('thaibank_logged_in');
+    const token = localStorage.getItem('token');
     
     // If not logged in, redirect to login
-    if (!isLoggedIn) {
+    if (!token) {
       window.location.href = 'login.html';
     }
   });
@@ -69,6 +69,34 @@
 
       <!-- HOME: Dashboard يشبه mymo -->
       <div id="p-transfer" class="page on">
+        <!-- MYMO-STYLE QUICK ACTIONS -->
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px">
+          <button class="trans-card" onclick="alert('โอนเงิน')">
+            <div class="trans-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h-4m0 0H8m4 0v12m0-12L6 8m0 0h12m-12 0L8 4M8 20h4m0 0h4m-4 0v-8m0 8l10-4m0 0H2m12 0l-10-4"/></svg>
+            </div>
+            <div class="trans-name">โอนเงิน</div>
+          </button>
+          <button class="trans-card" onclick="alert('ชำระบิล')">
+            <div class="trans-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <div class="trans-name">ชำระบิล</div>
+          </button>
+          <button class="trans-card" onclick="alert('บัตรเครดิต')">
+            <div class="trans-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            </div>
+            <div class="trans-name">บัตร</div>
+          </button>
+          <button class="trans-card" onclick="alert('สาธารณูปโภค')">
+            <div class="trans-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="10"></circle></svg>
+            </div>
+            <div class="trans-name">ยูทิลิตี</div>
+          </button>
+        </div>
+
         <!-- Savings Goals -->
         <div class="goal-section">
           <div class="goal-header">
